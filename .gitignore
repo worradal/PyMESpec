@@ -13,4 +13,3 @@ launch.json
 htmlcov/
 coverage.xml
 .pytest_cache/
-*.csv
