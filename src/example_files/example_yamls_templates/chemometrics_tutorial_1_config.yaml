@@ -1,0 +1,37 @@
+General_Page:
+  Spectrum Directory: Path\to\PyMESpec\src\example_files\example_synthetic_data
+  Data per Pulse: 800
+  Output Directory: Path\to\PyMESpec\src\example_files\chemometric_outputs
+  Project Name: chemometrics_tutorial_1
+  Starting Frame: 0
+  Ending Frame: -1
+  Spectral coordinate start: 0
+  Spectral coordinate end: -1
+  File Type:
+    csv:
+      Frequency column: frequencies
+      Intensity column: intensities
+      Starting row number: 1
+      Ending row number: -1
+  Baseline Correction Method:
+    None: {}
+Analysis_Page:
+  Analysis type: Chemometrics
+  Chemometrics Directory: Path\to\PyMESpec\src\example_files\example_synthetic_data\example_baselines
+  Chemometrics sample standards file list:
+  - reference_spectrum_0.csv
+  - reference_spectrum_1.csv
+  - reference_spectrum_2.csv
+  - reference_spectrum_3.csv
+  Chemometrics file type:
+    csv:
+      Frequency column: frequencies
+      Intensity column: normalized_intensities
+      Starting row number: 1
+      Ending row number: -1
+  Confidence interval: 0.05
+  Constrained fitting configs:
+    Constrained fit: true
+    epsilon: 1.0e-05
+    max iterations for constraint: 10000
+  normalize fit: false

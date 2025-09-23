@@ -1,0 +1,22 @@
+General_Page:
+  Spectrum Directory: Path\to\PyMESpec\src\example_files\example_synthetic_data
+  Data per Pulse: 800
+  Output Directory: Path\to\PyMESpec\src\example_files\rate_data_outputs
+  Project Name: rate_data_tutorial_1
+  Starting Frame: 0
+  Ending Frame: -1
+  Spectral coordinate start: 0
+  Spectral coordinate end: -1
+  File Type:
+    csv:
+      Frequency column: frequencies
+      Intensity column: intensities
+      Starting row number: 1
+      Ending row number: -1
+  Baseline Correction Method:
+    None: {}
+Analysis_Page:
+  Analysis type: Rate
+  Average rate: true
+  Fitting function: exponential
+  Desired frequency for rate data: 1500
