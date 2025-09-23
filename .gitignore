@@ -5,7 +5,7 @@
 settings.json
 launch.json
 *.pyc
-*.png
+
 .vscode/
 .github/
 # Coverage reports
