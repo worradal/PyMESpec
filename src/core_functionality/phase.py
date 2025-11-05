@@ -269,7 +269,15 @@ class Phase():
 
         fig, ax = plt.subplots(figsize=(8, 6))
         num_lines = self._plot_phase_data.shape[0] // sample_factor +1
+        # angles for each trace (evenly spaced around 0–360°)
+        angles_deg = np.linspace(0.0, 360.0, num_lines, endpoint=False)
+
+ 
+
         colors = plt.cm.viridis(np.linspace(0, 1, num_lines))
+        angles_rad = np.linspace(0.0, 2*np.pi, num_lines, endpoint=False)
+        cmap = plt.cm.viridis
+        norm = plt.Normalize(vmin=0.0, vmax=2*np.pi)
 
         for idx, i in enumerate(range(0, self._plot_phase_data.shape[0], sample_factor)):
             ax.plot(
@@ -282,9 +290,12 @@ class Phase():
 
         ax.set_xlabel("Wavenumber (nm)")
         ax.set_ylabel("Absorbance (a.u.)")
-        sm = plt.cm.ScalarMappable(cmap="viridis", norm=plt.Normalize(vmin=0, vmax=self._plot_phase_data.shape[0]))
+        sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+        sm.set_array([])
         cbar = plt.colorbar(sm, ax=ax, pad=0.02)
-        cbar.set_label("Time Index", rotation=270, labelpad=30)
+        cbar.set_label("Phase Angle", rotation=270, labelpad=30)
+        cbar.set_ticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi])
+        cbar.set_ticklabels([r"$0$", r"$\dfrac{\pi}{2}$", r"$\pi$", r"$\dfrac{3\pi}{2}$", r"$2\pi$"])
 
         plt.tight_layout()
         plt.show()

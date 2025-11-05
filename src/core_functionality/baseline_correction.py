@@ -38,12 +38,18 @@ class BaselineCorrection(ABC):
     @abstractmethod
     def get_baseline(self, Spectrum: Spectrum) -> np.ndarray:
         """Returns the baseline of the spectrum"""
-        pass
+        raise NotImplementedError("Subclasses must implement get_baseline()")
 
-    @abstractmethod
-    def baseline_corrected_spectrum(self, Spectrum: Spectrum) -> Spectrum:
-        """Returns the baseline corrected spectrum"""
-        pass
+    def get_baseline_corrected_spectrum(self, spectrum: Spectrum) -> Spectrum:
+        baseline = self.get_baseline(spectrum)
+        new_intensities = spectrum.intensities - baseline
+        return Spectrum(spectrum.frequencies, new_intensities)
+    
+    def get_baseline_corrected_spectra(self, spectra: Spectra) -> Spectra:
+        baseline_corrected_spectra = Spectra([])
+        for spectrum in spectra:
+            baseline_corrected_spectra.append(self.get_baseline_corrected_spectrum(spectrum))
+        return baseline_corrected_spectra
 
 
 class ARPLS(BaselineCorrection):
@@ -137,7 +143,7 @@ class ARPLS(BaselineCorrection):
             baseline = self.get_baseline(
                 spectrum, lambda_parameter, stop_ratio, max_iters, full_output)
         new_intensities = spectrum.intensities - baseline
-        new_intensities = new_intensities - np.min(new_intensities)
+        new_intensities = new_intensities #- np.min(new_intensities)
         return Spectrum(spectrum.frequencies, new_intensities)
 
     def baseline_corrected_spectra(

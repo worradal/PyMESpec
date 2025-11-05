@@ -18,6 +18,12 @@ from src.config_files.dict_config_utils import custom_decoder, GENERAL_PAGE, ANA
 
 from src.run_configs.overall_run_config import OverallRunConfig
 
+class TrimDoubleSpinBox(QDoubleSpinBox):
+    def textFromValue(self, value):
+        # format with your precision, then strip trailing zeros and dot
+        s = f"{value:.10f}".rstrip('0').rstrip('.')
+        return s or "0"
+
 class MainMenuWidget(QWidget):
     def __init__(self, parent_dict: Dict[str, Any], config_stack: 'ConfigStack', parent: Optional[QWidget] = None) -> None:
         super().__init__(parent)
@@ -266,12 +272,24 @@ class ConfigStack(QWidget):
         # Ensure the first page is the main menu
         self.stack.setCurrentIndex(0)
     
+    # def update_pages(self):
+    #     for i in range(self.stack.count()):
+    #         widget = self.stack.widget(i)
+    #         if isinstance(widget, ConfigWidget):
+    #             print(widget.widget_name)
+    #             widget.refresh_with_loaded_data()
     def update_pages(self):
+        # Which analysis type is currently loaded?
+        ap = self.operational_dict.get(ANALYSIS_PAGE) or {}
+        cur = (ap.get(ANALYSIS_TYPE) or {}).get(CURRENT_STATE)
+
         for i in range(self.stack.count()):
             widget = self.stack.widget(i)
             if isinstance(widget, ConfigWidget):
-                print(widget.widget_name)
-                widget.refresh_with_loaded_data()
+                # Only refresh the general page and the active analysis page
+                if widget.widget_name == GENERAL_PAGE or widget.widget_name == cur:
+                    widget.refresh_with_loaded_data()
+
 
 
 
@@ -441,18 +459,47 @@ class ConfigWidget(QWidget):
         general_page_dict = self.update_config_with_user_input(self.config, self.form_layout)
         self._recreation_dict[GENERAL_PAGE] = general_page_dict
         self.config_stack.operational_dict[GENERAL_PAGE] = general_page_dict
+
+        # If current analysis isn't Chemometrics, switch the analysis template
+        ap = self.config_stack.operational_dict.get(ANALYSIS_PAGE)
+        cur = (ap or {}).get(ANALYSIS_TYPE, {}).get(CURRENT_STATE)
+        if cur != CHEMOMETRICS_ANALYSIS_TYPE:
+            new_ap = copy.deepcopy(dict_config_chemometrics)
+            new_ap[ANALYSIS_TYPE][CURRENT_STATE] = CHEMOMETRICS_ANALYSIS_TYPE
+            self.config_stack.operational_dict[ANALYSIS_PAGE] = new_ap
+
         self.save_and_navigate(2)
+
 
     def navigate_to_phase(self):
         general_page_dict = self.update_config_with_user_input(self.config, self.form_layout)
         self._recreation_dict[GENERAL_PAGE] = general_page_dict
         self.config_stack.operational_dict[GENERAL_PAGE] = general_page_dict
+
+        # If current analysis isn't Phase, switch the analysis template
+        ap = self.config_stack.operational_dict.get(ANALYSIS_PAGE)
+        cur = (ap or {}).get(ANALYSIS_TYPE, {}).get(CURRENT_STATE)
+        if cur != PHASE_ANALYSIS_TYPE:
+            new_ap = copy.deepcopy(dict_config_phase)
+            new_ap[ANALYSIS_TYPE][CURRENT_STATE] = PHASE_ANALYSIS_TYPE
+            self.config_stack.operational_dict[ANALYSIS_PAGE] = new_ap
+
         self.save_and_navigate(3)
+
 
     def navigate_to_rate_data(self):
         general_page_dict = self.update_config_with_user_input(self.config, self.form_layout)
         self._recreation_dict[GENERAL_PAGE] = general_page_dict
         self.config_stack.operational_dict[GENERAL_PAGE] = general_page_dict
+
+        # If current analysis isn't Rate Data, switch the analysis template
+        ap = self.config_stack.operational_dict.get(ANALYSIS_PAGE)
+        cur = (ap or {}).get(ANALYSIS_TYPE, {}).get(CURRENT_STATE)
+        if cur != RATE_DATA_ANALYSIS_TYPE:
+            new_ap = copy.deepcopy(dict_config_rate_data)
+            new_ap[ANALYSIS_TYPE][CURRENT_STATE] = RATE_DATA_ANALYSIS_TYPE
+            self.config_stack.operational_dict[ANALYSIS_PAGE] = new_ap
+
         self.save_and_navigate(4)
 
     def get_updated_analysis_config(self):
@@ -880,10 +927,11 @@ class ConfigWidget(QWidget):
             widget.setValue(config.get('current_state', 0))
 
         elif config_type == float:
-            widget = QDoubleSpinBox(self)
-            widget.setRange(-10**10, 10**10)  # Set range for float values
-            widget.setDecimals(10)  # Set precision for float values
+            widget = TrimDoubleSpinBox(self)       # was QDoubleSpinBox
+            widget.setRange(-10**10, 10**10)
+            widget.setDecimals(10)                 # keeps precision for stepping
             widget.setValue(config.get('current_state', 0.0))
+
 
         elif config_type == dict:
             if 'has_options' in config and config['has_options']:
@@ -1177,6 +1225,7 @@ class ConfigWidget(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = ConfigStack()  # Launch the application with the stack widget
+    window.setWindowTitle("PyMESpec") 
     window.show()
     sys.exit(app.exec_())
 

@@ -49,9 +49,11 @@ There are three main ways to analyze spectra:
 
 For hands-on learning and examples of how to code with the PyMESpec package, see the interactive Jupyter notebook tutorials in `src/example_files/jupyter_notebook_tutorials/`:
 
-- `tutorial_1.ipynb` - Comprehensive synthetic tutorial demonstrating all core functionality including data processing, baseline correction, chemometrics, phase analysis, and rate data extraction.
-- `tutorial_2_blank.ipynb` - Blank template for trying out the concepts on a real dataset for propane dehydrogenation over a vanadium oxide supported on titania catalyst.
-- `tutorial_2.ipynb` - The completed solution to the tutorial 2.
+- `synthetic_tutorial.ipynb` - Comprehensive synthetic tutorial demonstrating all core functionality including data processing, baseline correction, chemometrics, phase analysis, and rate data extraction.
+- `V_TiO2_tutorial.ipynb` - Tutorial to accompany the manuscript involving propane dehydrogenation over a vanadium oxide supported on titania catalyst.
+- `computing_pure_components_tutorial.ipynb` - This tutorial takes you through the calculation of pure component reference spectra based on known fractions of contribution to composite spectra.
+- `CeO2_DRIFTS_tutorial.ipynb` - This tutorial showcases the base functionality of baseline correction as applied to CeO2 drifts data, showcasing the impact of tuning parameters.
+- `CeO2_DRIFTS_custom_baseline_tutorial.ipynb` - An example way for the user to define custom baseline correction classes as a way to extend the features of this toolbox.
 
 
 ## Configuration File Formats

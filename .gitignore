@@ -13,3 +13,7 @@ launch.json
 htmlcov/
 coverage.xml
 .pytest_cache/
+src/example_files/MES_400C_C3_ODH_O2_Switching/*
+src/example_files/CeO2_DRIFTS_Baseline_Correction/*
+src/example_files/UV_vis_match_NAP_XPS/*
+src/example_files/XPS/*

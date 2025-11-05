@@ -613,6 +613,40 @@ class Chemometrics():
             deconvoluted_spectra.append(deconvoluted_spectrum)
 
         return deconvoluted_spectra, fit_params_list
+    
+    def compute_reference_spectra(
+            self,
+            composite_spectra: Spectra,
+            matrix_of_pure_component_fractions: np.ndarray
+    ):
+        
+        # check to ensure the matrix_of_pure_component_fractions is valid
+        num_spectra = len(composite_spectra)
+        mat_shape = matrix_of_pure_component_fractions.shape
+        if mat_shape[0] != num_spectra:
+            raise ValueError("The number of rows in matrix_of_pure_component_fractions must match the number of composite spectra.")
+        if mat_shape[1] == 0:
+            raise ValueError("The matrix_of_pure_component_fractions must have at least one column.")
+        
+        # solve the NNLS problem to
+        # A = fractions (m×l), C = spectra (m×n)
+        A = matrix_of_pure_component_fractions
+        C = composite_spectra.data  # assuming Spectra.data is an (m×n) NumPy array
+
+        # Solve for B (l×n) using least squares: minimize ||A B - C||
+        B, residuals, rank, s = np.linalg.lstsq(A, C, rcond=None)
+
+        # Wrap in Spectra object (same x-axis, columns correspond to pure components)
+        pure_component_spectra = Spectra(
+            [Spectrum(
+                composite_spectra.frequencies,
+                B[i, :],
+                name=f"Pure_Component_{i+1}"
+            ) for i in range(B.shape[0])]
+        )
+
+
+        return pure_component_spectra
 
 
 if __name__ == '__main__':

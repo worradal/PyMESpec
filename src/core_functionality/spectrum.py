@@ -278,7 +278,26 @@ class Spectra():
 
     @property
     def spectra(self) -> List[Spectrum]:
-        return self._spectra
+        return self._spectra  
+
+    @property
+    def frequencies(self) -> np.ndarray:
+        """
+        Return the frequencies of the spectra.
+        Assumes all spectra have the same frequencies.
+        """
+        if not self._spectra:
+            return np.array([])
+        return self._spectra[0].frequencies  
+    
+    @property
+    def data(self) -> np.ndarray:
+        """
+        Return all intensities as an (m × n) array:
+        m = number of spectra
+        n = number of frequency bins
+        """
+        return np.vstack([s.intensities for s in self._spectra])
 
     def __repr__(self) -> str:
         return f'Spectra(spectra={self._spectra})'
