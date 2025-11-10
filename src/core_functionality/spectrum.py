@@ -71,6 +71,16 @@ class Spectrum():
         if new_intensities.shape != self._frequencies.shape:
             raise ValueError("New intensities must have the same shape as frequencies")
         self._intensities = new_intensities
+    
+    def to_csv(self, file_path: str) -> None:
+        """ Saves the Spectrum object to a CSV file.
+
+        Args:
+            file_path (str): The path to the CSV file where the spectrum will be saved.
+        """
+        data = np.column_stack((self.frequencies, self.intensities))
+        header = "frequency,intensity"
+        np.savetxt(file_path, data, delimiter=",", header=header, comments='')
 
     def set_data(self, new_frequencies: np.ndarray, new_intensities: np.ndarray) -> None:
         """ Sets the frequencies and intensities of the spectrum.
@@ -315,6 +325,14 @@ class Spectra():
     
     def __iter__(self):
         return iter(self._spectra)
+    
+    def remove_spectrum_at_index(self, index: int) -> None:
+        """ Removes a Spectrum object from the Spectra object at the specified index.
+
+        Args:
+            index (int): The index of the Spectrum object to remove.
+        """
+        del self._spectra[index]
     
     def slice_spectra_at_freq(self,freq):
         return np.array([s.intensities[np.where(s.frequencies==freq)[0][0]] for s in self._spectra])
