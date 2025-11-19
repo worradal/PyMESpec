@@ -1,3 +1,4 @@
+.gitignore
 .env
 .env.local
 .env.*.local
@@ -7,7 +8,8 @@ launch.json
 *.pyc
 
 .vscode/
-.github/
+.github/workflows/test-coverage.yml
+.github/workflows/coverage-badge.yml
 # Coverage reports
 .coverage
 htmlcov/

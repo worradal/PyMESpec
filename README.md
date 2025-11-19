@@ -1,6 +1,5 @@
 # PyMESpec
 
-[![CI](https://github.com/worradal/PyMESpec/actions/workflows/ci-codecov.yml/badge.svg)](https://github.com/worradal/PyMESpec/actions)
 [![coverage](badges/coverage.svg)](badges/coverage.svg)
 [![codecov](https://codecov.io/gh/worradal/PyMESpec/branch/main/graph/badge.svg)](https://codecov.io/gh/worradal/PyMESpec)
 
@@ -123,7 +122,7 @@ If you run into missing-column or parsing errors, check the CSV header row and t
 1. Baseline correction
 2. Chemometrics  
 3. Phase sensitive detection
-4. Automated Rate abstractions
+4. Automated Rate extractions
 
 ### Dependencies
 * numpy
