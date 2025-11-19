@@ -1,2 +1,5 @@
+# Mark notebooks as generated to reduce language noise on GitHub
+*.ipynb linguist-generated=true
+example_files/** linguist-generated=true
 # Auto detect text files and perform LF normalization
 * text=auto

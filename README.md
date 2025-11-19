@@ -1,11 +1,12 @@
 # PyMESpec
 
-[![Tests and Coverage](https://github.com/worradal/PyMESpec/actions/workflows/test-coverage.yml/badge.svg)](https://github.com/worradal/PyMESpec/actions/workflows/test-coverage.yml)
-[![codecov](https://codecov.io/gh/worradal/PyMESpec/graph/badge.svg?token=P3YLZB7C2T)](https://codecov.io/gh/worradal/PyMESpec)
+[![CI](https://github.com/worradal/PyMESpec/actions/workflows/ci-codecov.yml/badge.svg)](https://github.com/worradal/PyMESpec/actions)
+[![coverage](badges/coverage.svg)](badges/coverage.svg)
+[![codecov](https://codecov.io/gh/worradal/PyMESpec/branch/main/graph/badge.svg)](https://codecov.io/gh/worradal/PyMESpec)
 
-PyMESpec is designed to be an encompassing software package for the analysis of transient experimental spectroscopic data, with an emphasis in aiding labratory automation, through automated data analysis.
+PyMESpec is a package for analyzing transient experimental spectroscopic data with tools for baseline correction, chemometrics, phase analysis, and rate extraction.
 
-![alt text](MES_data_struct.png)
+![PyMESpec TOC](PyMESpec_TOC.jpg)
 
 ## Setup and Installation
 
